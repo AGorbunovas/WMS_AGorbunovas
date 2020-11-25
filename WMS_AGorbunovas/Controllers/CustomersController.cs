@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using WMS_AGorbunovas.Data;
 using WMS_AGorbunovas.Models;
+using WMS_AGorbunovas.ViewModels;
 
 namespace WMS_AGorbunovas.Controllers
 {
@@ -25,7 +26,6 @@ namespace WMS_AGorbunovas.Controllers
             List<Customer> objList = _context.Customers.Include(u => u.CustomerTypes)
                 .ThenInclude(u => u.LoyaltyType).ToList();
             return View(objList);
-            //return View(await _context.Customers.ToListAsync());
         }
 
         // GET: Customers/Details/5
@@ -49,12 +49,12 @@ namespace WMS_AGorbunovas.Controllers
         // GET: Customers/Create
         public IActionResult Create()
         {
-            return View();
+            CustomerVM model = GetCustomerwithLoyaltyType();
+
+            return View(model);
         }
 
         // POST: Customers/Create
-        // To protect from overposting attacks, enable the specific properties you want to bind to, for 
-        // more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create([Bind("CustomerId,FirstName,LastName,BirthDate,PhoneNumber,CustomerType")] Customer customer)
@@ -151,6 +151,22 @@ namespace WMS_AGorbunovas.Controllers
         private bool CustomerExists(int id)
         {
             return _context.Customers.Any(e => e.CustomerId == id);
+        }
+
+        private CustomerVM GetCustomerwithLoyaltyType()
+        {
+            var loyaltyTypeData = _context.LoyaltyTypes.Select(x => new SelectListItem()
+            {
+                Value = x.LoyaltyName,
+                Text = x.LoyaltyName.ToString()
+            }).ToList();
+
+            var viewModel = new CustomerVM()
+            {
+                LoyaltyTypes = loyaltyTypeData
+            };
+
+            return viewModel;
         }
     }
 }

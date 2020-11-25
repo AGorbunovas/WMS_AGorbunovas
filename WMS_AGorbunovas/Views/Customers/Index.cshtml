@@ -4,61 +4,81 @@
     ViewData["Title"] = "Index";
 }
 
-<h1>Index</h1>
-
-<p>
-    <a asp-action="Create">Create New</a>
-</p>
-<table class="table">
-    <thead>
-        <tr>
-            <th>
-                Vardas
-            </th>
-            <th>
-                Pavardė
-            </th>
-            <th>
-                Gimimo Data
-            </th>
-            <th>
-                Telefono numeris
-            </th>
-            <th>
-                Lojalumo lygis
-            </th>
-            <th></th>
-        </tr>
-    </thead>
-    <tbody>
-@foreach (var item in Model) {
-        <tr>
-            <td>
-                @Html.DisplayFor(modelItem => item.FirstName)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.LastName)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.BirthDate)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.PhoneNumber)
-            </td>
-            <td>
-                @{ var loyalty = ""; }
-                @foreach (var loyaltyType in item.CustomerTypes)
-                {
-                    loyalty += loyaltyType.LoyaltyType.LoyaltyName + ", ";
-                }
-                @loyalty.Trim().TrimEnd(',')
-            </td>
-            <td>
-                <a asp-action="Edit" asp-route-id="@item.CustomerId">Edit</a> |
-                <a asp-action="Details" asp-route-id="@item.CustomerId">Details</a> |
-                <a asp-action="Delete" asp-route-id="@item.CustomerId">Delete</a>
-            </td>
-        </tr>
-}
-    </tbody>
-</table>
+<br />
+<br />
+<div class="border p-4 bg-white">
+    <div class="row">
+        <div class="col-8">
+            <h2 class="text-info">Klientų sąrašas</h2>
+        </div>
+        @*<div class=" col-2 ">
+            <a asp-action="PlayGround" class="btn btn-warning form-control">Play Ground</a>
+        </div>*@
+        <div class=" col-2 text-right">
+            <a asp-action="Create" class="btn btn-info form-control"> Sukurti </a>
+        </div>
+    </div>
+    <br />
+    <div>
+        @if (Model.Count() > 0)
+        {
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th>
+                            Vardas
+                        </th>
+                        <th>
+                            Pavardė
+                        </th>
+                        <th>
+                            Gimimo Data
+                        </th>
+                        <th>
+                            Telefono numeris
+                        </th>
+                        <th>
+                            Lojalumo lygis
+                        </th>
+                        <th></th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var item in Model)
+                    {
+                        <tr>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.FirstName)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.LastName)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.BirthDate)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.PhoneNumber)
+                            </td>
+                            <td>
+                                @{ var loyalty = ""; }
+                                @foreach (var loyaltyType in item.CustomerTypes)
+                                {
+                                    loyalty += loyaltyType.LoyaltyType.LoyaltyName + ", ";
+                                }
+                                @loyalty.Trim().TrimEnd(',')
+                            </td>
+                            <td>
+                                <a asp-action="Edit" asp-route-id="@item.CustomerId">Edit</a> |
+                                <a asp-action="Details" asp-route-id="@item.CustomerId">Details</a> |
+                                <a asp-action="Delete" asp-route-id="@item.CustomerId">Delete</a>
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        }
+        else
+        {
+            <p>No publisher exists...</p>}
+    </div>
+</div>
