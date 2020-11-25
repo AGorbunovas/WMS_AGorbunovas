@@ -35,9 +35,9 @@ namespace WMS_AGorbunovas.ViewModels
         public List<Customer> Customer { get; set; }
 
         [Display(Name = "Lojalumo grupė")]
-        public List<LoyaltyType> LoyaltyTypeList { get; set; } = new List<LoyaltyType>();
+        //public List<LoyaltyType> LoyaltyTypeList { get; set; } = new List<LoyaltyType>();
         public List<SelectListItem> LoyaltyTypes { get; set; }
         [Required(ErrorMessage = "Pasirinkite lojalumo grupę")]
-        public string[] LoyaltyTypeName { get; set; }
+        public int?[] LoyaltyTypeId { get; set; }
     }
 }

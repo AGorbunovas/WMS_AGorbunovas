@@ -49,7 +49,7 @@ namespace WMS_AGorbunovas.Controllers
         // GET: Customers/Create
         public IActionResult Create()
         {
-            CustomerVM model = GetCustomerwithLoyaltyType();
+            CustomerVM model = GetCustomerWithLoyaltyType();
 
             return View(model);
         }
@@ -57,15 +57,23 @@ namespace WMS_AGorbunovas.Controllers
         // POST: Customers/Create
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("CustomerId,FirstName,LastName,BirthDate,PhoneNumber,CustomerType")] Customer customer)
+        public async Task<IActionResult> Create(CustomerVM customerModel)
         {
             if (ModelState.IsValid)
             {
-                _context.Add(customer);
+                Customer newRecord = new Customer()
+                {
+                    FirstName = customerModel.FirstName,
+                    LastName = customerModel.LastName,
+                    BirthDate = customerModel.BirthDate,
+                    PhoneNumber = customerModel.PhoneNumber.Value,
+                    CustomerTypes = customerModel.LoyaltyTypeId.Where(t => t.HasValue).Distinct().Select((t, i) => new CustomerType() { OrderNr = i, TypeId = t.Value}).ToList()
+                };
+                _context.Add(newRecord);
                 await _context.SaveChangesAsync();
-                return RedirectToAction(nameof(Index));
+                return RedirectToAction(nameof(Index));            
             }
-            return View(customer);
+            return View(customerModel);
         }
 
         // GET: Customers/Edit/5
@@ -153,7 +161,7 @@ namespace WMS_AGorbunovas.Controllers
             return _context.Customers.Any(e => e.CustomerId == id);
         }
 
-        private CustomerVM GetCustomerwithLoyaltyType()
+        private CustomerVM GetCustomerWithLoyaltyType()
         {
             var loyaltyTypeData = _context.LoyaltyTypes.Select(x => new SelectListItem()
             {
