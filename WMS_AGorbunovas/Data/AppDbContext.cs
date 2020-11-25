@@ -15,5 +15,7 @@ namespace WMS_AGorbunovas.Data
         }
 
         public DbSet<Customer> Customer { get; set; }
+        public DbSet<LoyaltyType> LoyaltyType { get; set; }
+
     }
 }
