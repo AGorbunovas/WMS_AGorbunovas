@@ -12,7 +12,7 @@ namespace WMS_AGorbunovas.Data
         {
             context.Database.EnsureCreated();
 
-            if (context.Customer.Any())
+            if (context.Customers.Any())
             {
                 return;
             }
@@ -50,7 +50,7 @@ namespace WMS_AGorbunovas.Data
                  };
             foreach (Customer customer in customers)
             {
-                context.Customer.Add(customer);
+                context.Customers.Add(customer);
             }
             context.SaveChanges();
 
@@ -67,7 +67,31 @@ namespace WMS_AGorbunovas.Data
                 };
             foreach (LoyaltyType loyaltyType in loyalties)
             {
-                context.LoyaltyType.Add(loyaltyType);
+                context.LoyaltyTypes.Add(loyaltyType);
+            }
+            context.SaveChanges();
+
+            var customersTypes = new CustomerType[]
+                {
+                    new CustomerType
+                    {
+                        CustomerId = 1,
+                        TypeId = 1
+                    },
+                    new CustomerType
+                    {
+                        CustomerId = 2,
+                        TypeId = 2
+                    },
+                    new CustomerType
+                    {
+                        CustomerId = 3,
+                        TypeId = 1
+                    }
+                };
+            foreach (CustomerType customerType in customersTypes)
+            {
+                context.CustomerTypes.Add(customerType);
             }
             context.SaveChanges();
         }
