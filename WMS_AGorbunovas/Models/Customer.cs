@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Microsoft.AspNetCore.Mvc.Rendering;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
@@ -22,6 +23,7 @@ namespace WMS_AGorbunovas.Models
 
         [Required]
         public int PhoneNumber { get; set; }
+        public ICollection<CustomerType> CustomerTypes { get; set; }
 
     }
 }
