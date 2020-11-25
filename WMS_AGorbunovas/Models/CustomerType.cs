@@ -8,6 +8,8 @@ namespace WMS_AGorbunovas.Models
 {   
     public class CustomerType
     {
+        public int OrderNr { get; set; }
+
         [ForeignKey("Customer")]
         public int CustomerId { get; set; }
         public Customer Customer { get; set; }
