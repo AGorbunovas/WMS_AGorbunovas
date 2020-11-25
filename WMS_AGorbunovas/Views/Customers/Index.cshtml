@@ -13,16 +13,19 @@
     <thead>
         <tr>
             <th>
-                @Html.DisplayNameFor(model => model.FirstName)
+                Vardas
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.LastName)
+                Pavardė
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.BirthDate)
+                Gimimo Data
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.PhoneNumber)
+                Telefono numeris
+            </th>
+            <th>
+                Lojalumo lygis
             </th>
             <th></th>
         </tr>
@@ -41,6 +44,14 @@
             </td>
             <td>
                 @Html.DisplayFor(modelItem => item.PhoneNumber)
+            </td>
+            <td>
+                @{ var loyalty = ""; }
+                @foreach (var loyaltyType in item.CustomerTypes)
+                {
+                    loyalty += loyaltyType.LoyaltyType.LoyaltyName + ", ";
+                }
+                @loyalty.Trim().TrimEnd(',')
             </td>
             <td>
                 <a asp-action="Edit" asp-route-id="@item.CustomerId">Edit</a> |

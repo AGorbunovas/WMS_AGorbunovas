@@ -11,5 +11,6 @@ namespace WMS_AGorbunovas.Models
         [Key]
         public int TypeId { get; set; }
         public string LoyaltyName { get; set; }
+        public ICollection<CustomerType> CustomerTypes { get; set; }
     }
 }

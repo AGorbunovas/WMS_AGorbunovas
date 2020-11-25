@@ -22,7 +22,10 @@ namespace WMS_AGorbunovas.Controllers
         // GET: Customers
         public async Task<IActionResult> Index()
         {
-            return View(await _context.Customers.ToListAsync());
+            List<Customer> objList = _context.Customers.Include(u => u.CustomerTypes)
+                .ThenInclude(u => u.LoyaltyType).ToList();
+            return View(objList);
+            //return View(await _context.Customers.ToListAsync());
         }
 
         // GET: Customers/Details/5
@@ -54,7 +57,7 @@ namespace WMS_AGorbunovas.Controllers
         // more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("CustomerId,FirstName,LastName,BirthDate,PhoneNumber")] Customer customer)
+        public async Task<IActionResult> Create([Bind("CustomerId,FirstName,LastName,BirthDate,PhoneNumber,CustomerType")] Customer customer)
         {
             if (ModelState.IsValid)
             {
@@ -86,7 +89,7 @@ namespace WMS_AGorbunovas.Controllers
         // more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("CustomerId,FirstName,LastName,BirthDate,PhoneNumber")] Customer customer)
+        public async Task<IActionResult> Edit(int id, [Bind("CustomerId,FirstName,LastName,BirthDate,PhoneNumber,CustomerType")] Customer customer)
         {
             if (id != customer.CustomerId)
             {
